@@ -16,3 +16,4 @@ create table if not exists project (
 
 show tables;
 describe project;
+select * from project;
