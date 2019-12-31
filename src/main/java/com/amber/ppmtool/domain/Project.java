@@ -17,9 +17,10 @@ public class Project {
     @NotBlank(message = "Project Name Required")
     private String projectName;
 
+    // unique only work on initialization of the table
     @NotBlank(message = "Project Identifier Required")
     @Size(min = 4, max = 5, message = "Must be between 4-5 Chars")
-    @Column(updatable = false, unique = true)
+    @Column(unique = true, updatable = false)
     private String projectIdentifier;
 
     @NotBlank(message = "Description Required")
@@ -78,6 +79,34 @@ public class Project {
 
     public Date getUpdated_At() {
         return updated_At;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
+    public void setProjectIdentifier(String projectIdentifier) {
+        this.projectIdentifier = projectIdentifier;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setStart_date(Date start_date) {
+        this.start_date = start_date;
+    }
+
+    public void setEnd_date(Date end_date) {
+        this.end_date = end_date;
+    }
+
+    public void setCreated_At(Date created_At) {
+        this.created_At = created_At;
+    }
+
+    public void setUpdated_At(Date updated_At) {
+        this.updated_At = updated_At;
     }
 }
 //@CrossOrigin(origins = "http://localhost:3000")
