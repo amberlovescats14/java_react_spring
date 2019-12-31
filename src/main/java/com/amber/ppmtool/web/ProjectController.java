@@ -1,6 +1,7 @@
 package com.amber.ppmtool.web;
 
 import com.amber.ppmtool.domain.Project;
+import com.amber.ppmtool.exception.ProjectIdException;
 import com.amber.ppmtool.services.MapValidationErrorService;
 import com.amber.ppmtool.services.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,19 +22,29 @@ public class ProjectController {
     @Autowired
     private MapValidationErrorService mapValidationErrorService;
 
-    //! GET
+    //!GET ALL
+    @GetMapping("")
+    public Iterable<Project> getAllProjects(){
+        return projectService.findAllProjects();
+    }
+
+    //! GET ONE
+    // u cannot say if(!project) to an object
     @GetMapping("/{projectIdentifier}")
     public ResponseEntity<?> getProjectIdentifier(
             @PathVariable String projectIdentifier
     ){
         Project project = projectService.findProjectByIdentifier(projectIdentifier.toUpperCase());
+        if(project == null)
+            throw new ProjectIdException("Project Not Found");
+        //else
         return new ResponseEntity<>(project, HttpStatus.OK);
     }
 
     //!POST
     // React needs correct errors to handle :: HttpStatus.BAD_REQUEST
     // column(unique=true) is happening after this function
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<?> createNewProject(
             @Valid @RequestBody Project project, BindingResult result
     ){
@@ -45,6 +56,16 @@ public class ProjectController {
         Project project1 = projectService.saveOrUpdateProject(project);
         return new ResponseEntity<>(project1, HttpStatus.CREATED);
     }
+
+    //! DELETE
+    @DeleteMapping("/{identifier}")
+    public ResponseEntity<?> deleteProject(
+            @PathVariable String identifier
+    ) {
+        projectService.deleteProjectByIdentifier(identifier.toUpperCase());
+        return new ResponseEntity<String>("Deleted", HttpStatus.OK);
+    }
+
 
 
 //end
