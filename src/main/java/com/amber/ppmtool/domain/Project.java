@@ -1,7 +1,10 @@
 package com.amber.ppmtool.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Entity
@@ -11,21 +14,30 @@ public class Project {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
+    @NotBlank(message = "Project Name Required")
     private String projectName;
-    @NotBlank
+
+    @NotBlank(message = "Project Identifier Required")
+    @Size(min = 4, max = 5, message = "Must be between 4-5 Chars")
+    @Column(updatable = false, unique = true)
     private String projectIdentifier;
-    @NotBlank
+
+    @NotBlank(message = "Description Required")
     private String description;
 
+    //! Format dates
+    @JsonFormat(pattern = "yyyy-mm-dd")
     private Date start_date;
+    @JsonFormat(pattern = "yyyy-mm-dd")
     private Date end_date;
-
+    @JsonFormat(pattern = "yyyy-mm-dd")
     private Date created_At;
+    @JsonFormat(pattern = "yyyy-mm-dd")
     private Date updated_At;
 
     public Project(){}
 
+    //! on created
     @PrePersist
     protected void onCreate(){
         this.created_At = new Date();
@@ -69,4 +81,4 @@ public class Project {
     }
 }
 //@CrossOrigin(origins = "http://localhost:3000")
-//@RestController
+////@RestController
