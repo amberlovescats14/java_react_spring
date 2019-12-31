@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -57,6 +56,18 @@ public class ProjectController {
         return new ResponseEntity<>(project1, HttpStatus.CREATED);
     }
 
+    //! PUT
+    // if it exists it will automatically work
+    @PutMapping("/{identifier}")
+    public ResponseEntity<?> updateProject(
+            @PathVariable String identifier,
+            @Valid @RequestBody Project details
+    ) {
+        projectService.updateProject(identifier, details );
+        return new ResponseEntity<>("Updated", HttpStatus.OK);
+    }
+
+
     //! DELETE
     @DeleteMapping("/{identifier}")
     public ResponseEntity<?> deleteProject(
@@ -65,6 +76,7 @@ public class ProjectController {
         projectService.deleteProjectByIdentifier(identifier.toUpperCase());
         return new ResponseEntity<String>("Deleted", HttpStatus.OK);
     }
+
 
 
 
