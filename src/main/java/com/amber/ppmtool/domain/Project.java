@@ -1,25 +1,30 @@
 package com.amber.ppmtool.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
 @Entity
+@Table(name="projects")
 public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotBlank
     private String projectName;
+    @NotBlank
     private String projectIdentifier;
+    @NotBlank
     private String description;
+
     private Date start_date;
     private Date end_date;
 
     private Date created_At;
     private Date updated_At;
 
-    public Project(){
-
-    }
+    public Project(){}
 
     @PrePersist
     protected void onCreate(){
