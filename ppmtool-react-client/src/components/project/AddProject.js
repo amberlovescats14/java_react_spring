@@ -1,12 +1,16 @@
 import React from 'react'
-import ProjectForm from './ProjectForm';
+import ProjectFormContainer from '../../containers/ProjectFormContainer';
 
 const AddProject = () => {
   return (
     <div>
-      <ProjectForm/>
+      <ProjectFormContainer/>
     </div>
   )
 }
+
+
+
+
 
 export default AddProject

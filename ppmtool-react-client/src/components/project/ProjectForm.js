@@ -1,7 +1,8 @@
 import React, {useState} from 'react'
+import PropTypes from 'prop-types';
 
-const ProjectForm = () => {
-
+const ProjectForm = (props) => {
+  const { createProject, history } = props
   const [state, setState] = useState({
     projectName: '',
     projectIdentifier: '',
@@ -26,8 +27,10 @@ const ProjectForm = () => {
   };
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log(state);
+    createProject(state, history)
+    // window.location = "/dashboard"
   }
+
   return (
     <div className="register">
     <div className="container">
@@ -77,5 +80,9 @@ const ProjectForm = () => {
 
   )
 }
+
+ProjectForm.propTypes = {
+    createProject: PropTypes.func.isRequired
+  }
 
 export default ProjectForm

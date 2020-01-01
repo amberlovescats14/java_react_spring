@@ -1,4 +1,7 @@
 export default {
-  test: "Testing",
-  errors: {}
+  errors: {},
+  projectObj: {
+    projects: [],
+    loading: true
+  }
 }

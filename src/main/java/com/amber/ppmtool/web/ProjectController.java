@@ -22,7 +22,7 @@ public class ProjectController {
     private MapValidationErrorService mapValidationErrorService;
 
     //!GET ALL
-    @GetMapping("")
+    @GetMapping("/")
     public Iterable<Project> getAllProjects(){
         return projectService.findAllProjects();
     }
@@ -43,7 +43,7 @@ public class ProjectController {
     //!POST
     // React needs correct errors to handle :: HttpStatus.BAD_REQUEST
     // column(unique=true) is happening after this function
-    @PostMapping("")
+    @PostMapping("/")
     public ResponseEntity<?> createNewProject(
             @Valid @RequestBody Project project, BindingResult result
     ){
