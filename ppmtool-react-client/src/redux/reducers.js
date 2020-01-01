@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
 
-const projectInitialState = {
+let projectInitialState = {
   projects: [],
   loading: true
 }
@@ -16,21 +16,24 @@ export const getProjects = (state = projectInitialState, action) => {
     case `POST PROJECT`: 
     return {
       ...state,
-      projects: payload.allProjects.concat(payload.newProject),
+      projects: payload.allProjects.push(payload.newProject),
       loading: false
     }
     default: return state;
   }
 }
 
-export const getErrors = (state={}, action) => {
+let errorInitialState = []
+
+export const getErrors = (state = errorInitialState, action) => {
   const {type, payload} = action
   switch(type){
     case `GET_ERRORS`:
-    return {
-      ...state,
-      payload
-    }
+    let errorsArr = Object.values(payload)
+
+    return [...state, ...errorsArr]
+    case `REMOVE_ERRORS`:
+    return errorInitialState
     default: return state
   }
 }

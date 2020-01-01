@@ -1,48 +1,49 @@
 import axios from 'axios'
 
-
+let proxy = "http://localhost:8080/api/project/"
 //! GET ALL
 export const getProjects = () => async (dispatch) => {
   try {
-    const res = axios.get('/api/project')
+    const res = axios.get(proxy)
     dispatch({
       type: `GET_PROJECTS`,
       payload: res.data
     })
   } catch (error) {
-    console.log(`GET ERROR`)
+    dispatch(setAlert(error.response.data))
   }
 }
 
 export const createProject = (project, history) => async (dispatch, getState) => {
-  const { projects } = getState()
+  const { projectObj } = getState()
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }
   try {
-    const res = await axios.post('/', project)
+    const res = await axios.post(proxy, project, config)
+    history.push('/dashboard')
     dispatch({
       type: `POST_PROJECT`,
       payload: {
         newProject: res.data,
-        allProjects: projects 
+        allProjects: projectObj.projects
       }
     })
-    // history.push(`${reactProxy}/dashboard`)
   } catch (error) {
-    dispatch({
-      type: `GET_ERRORS`,
-      payload: error.response.data
-    })
+    dispatch(setAlert(error.response.data))
   }
 } 
 
+export const setAlert = (msg, timeout = 2000) => dispatch => {
+  dispatch({
+    type: `GET_ERRORS`,
+    payload: msg
+  })
 
-// export const getErrors = () => async (dispatch) => {
-//   try {
-//     dispatch({
-//       type: `GET_ERRORS`,
-//       payload: 'hi'
-//     })
-//   } catch (error) {
-//     console.error(error.message)
-//     console.log("ERROR ERROR")
-//   }
-// }
+  setTimeout(()=>  dispatch({
+    type: `REMOVE_ERRORS`,
+    payload: []
+  }), timeout)
+}

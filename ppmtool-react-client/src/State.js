@@ -1,5 +1,5 @@
 export default {
-  errors: {},
+  errors: [],
   projectObj: {
     projects: [],
     loading: true

@@ -2,13 +2,13 @@ import React, {useState} from 'react'
 import PropTypes from 'prop-types';
 
 const ProjectForm = (props) => {
-  const { createProject, history } = props
+  const { createProject, history} = props
   const [state, setState] = useState({
     projectName: '',
     projectIdentifier: '',
     description: '',
     start_date: '',
-    end_date: '',
+    end_date: ''
   })
   const handleChangeName = projectName => event => {
     setState({ ...state, [projectName]: event.target.value });
@@ -28,7 +28,7 @@ const ProjectForm = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault()
     createProject(state, history)
-    // window.location = "/dashboard"
+
   }
 
   return (
@@ -82,7 +82,8 @@ const ProjectForm = (props) => {
 }
 
 ProjectForm.propTypes = {
-    createProject: PropTypes.func.isRequired
+    createProject: PropTypes.func.isRequired,
+    projectObj: PropTypes.object.isRequired,
   }
 
 export default ProjectForm

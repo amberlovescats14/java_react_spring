@@ -1,10 +1,11 @@
 import React from 'react'
 import ProjectFormContainer from '../../containers/ProjectFormContainer';
 
-const AddProject = () => {
+const AddProject = (props) => {
+
   return (
     <div>
-      <ProjectFormContainer/>
+      <ProjectFormContainer history={props.history}/>
     </div>
   )
 }

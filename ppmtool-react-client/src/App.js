@@ -4,11 +4,12 @@ import './App.css'
 import Header from './components/layout/Header';
 import { BrowserRouter } from 'react-router-dom'
 import Router from './Router';
+import Alert from './containers/AlertUtilContainer'
 
-
-function App() {
+function App(props) {
   return (
     <BrowserRouter>
+    <Alert />
     <Header/>
     <Router/>
     </BrowserRouter>
