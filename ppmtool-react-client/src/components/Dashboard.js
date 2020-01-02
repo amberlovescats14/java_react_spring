@@ -1,9 +1,15 @@
-import React from 'react'
+import React, {useEffect} from 'react'
+import PropTypes from 'prop-types';
 import ProjectItem from './project/ProjectItem';
 import CreateButton from './project/CreateButton';
 
 
-const Dashboard = () => {
+const Dashboard = (props) => {
+  const { projectObj, getProjects } = props
+  useEffect(()=> {
+    getProjects()
+  }, [getProjects])
+
   return (
     <div className="projects">
         <div className="container">
@@ -14,12 +20,19 @@ const Dashboard = () => {
                     <CreateButton/>
                     <br />
                     <hr />
-                    <ProjectItem/>
+                    {projectObj.projects.map((p,i)=> (
+                      <ProjectItem p={p} key={i}/>
+                    ))}
                   </div>
                 </div>
               </div>
             </div>
   )
+}
+
+Dashboard.propTypes = {
+  getProjects: PropTypes.func.isRequired,
+  projectObj: PropTypes.object.isRequired,
 }
 
 export default Dashboard

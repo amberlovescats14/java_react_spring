@@ -2,6 +2,7 @@ import { combineReducers } from 'redux'
 
 let projectInitialState = {
   projects: [],
+  project: {},
   loading: true
 }
 export const getProjects = (state = projectInitialState, action) => {
@@ -19,6 +20,12 @@ export const getProjects = (state = projectInitialState, action) => {
       projects: payload.allProjects.push(payload.newProject),
       loading: false
     }
+    case `UPDATE_PROJECT`:
+    return {
+      ...state,
+      projects: payload,
+      loading: false
+    }
     default: return state;
   }
 }
@@ -29,7 +36,7 @@ export const getErrors = (state = errorInitialState, action) => {
   const {type, payload} = action
   switch(type){
     case `GET_ERRORS`:
-    let errorsArr = Object.values(payload)
+    let errorsArr = Object.entries(payload)
 
     return [...state, ...errorsArr]
     case `REMOVE_ERRORS`:

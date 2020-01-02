@@ -1,23 +1,22 @@
 import React from 'react'
+import PropTypes from 'prop-types';
 import { Alert } from 'react-bootstrap'
 
 const AlertUtil = (props) => {
   const {errors} = props
-  console.log(": ", errors.length);
   return (
     errors.length > 0 && 
     errors.map((e,i)=> (
       <Alert key={i} variant="danger">
-      {e}
+      {e[0].toUpperCase()} : {e[1]}
       </Alert>
 
     ))
   )
 }
-const divStyle = {
-  width: '100%',
-  display: 'block',
-  padding: '10px'
+
+AlertUtil.propTypes = {
+  errors: PropTypes.array.isRequired,
 }
 
 export default AlertUtil

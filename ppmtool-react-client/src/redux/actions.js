@@ -4,7 +4,7 @@ let proxy = "http://localhost:8080/api/project/"
 //! GET ALL
 export const getProjects = () => async (dispatch) => {
   try {
-    const res = axios.get(proxy)
+    const res = await axios.get(proxy)
     dispatch({
       type: `GET_PROJECTS`,
       payload: res.data
@@ -14,6 +14,7 @@ export const getProjects = () => async (dispatch) => {
   }
 }
 
+//! POST
 export const createProject = (project, history) => async (dispatch, getState) => {
   const { projectObj } = getState()
   const config = {
@@ -22,7 +23,7 @@ export const createProject = (project, history) => async (dispatch, getState) =>
     }
   }
   try {
-    const res = await axios.post(proxy, project, config)
+    const res = await axios.post(proxy, project)
     history.push('/dashboard')
     dispatch({
       type: `POST_PROJECT`,
@@ -35,8 +36,28 @@ export const createProject = (project, history) => async (dispatch, getState) =>
     dispatch(setAlert(error.response.data))
   }
 } 
+//! PUT
+export const updateProject = (identifier, details) => async (dispatch) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }
+  try {
+    const res = await axios.put(`${proxy}${identifier}`, details, config)
+    dispatch({
+      type: `UPDATE_PROJECT`,
+      payload: res.data
+    })
+    
+  } catch (error) {
+    dispatch(setAlert(error.response.data))
+  }
+}
 
-export const setAlert = (msg, timeout = 2000) => dispatch => {
+
+//! ALERTS
+export const setAlert = (msg, timeout = 3000) => dispatch => {
   dispatch({
     type: `GET_ERRORS`,
     payload: msg

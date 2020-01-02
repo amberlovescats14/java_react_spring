@@ -1,7 +1,7 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import AddProject from './components/project/AddProject';
-import Dashboard from './components/Dashboard';
+import Dashboard from './containers/DashboardContainer';
 
 const Router = () => {
   return (

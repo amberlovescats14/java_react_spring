@@ -60,12 +60,12 @@ public class ProjectController {
     //! PUT
     // if it exists it will automatically work
     @PutMapping("/{identifier}")
-    public ResponseEntity<?> updateProject(
+    public Iterable<Project> updateProject(
             @PathVariable String identifier,
             @Valid @RequestBody Project details
     ) {
         projectService.updateProject(identifier, details );
-        return new ResponseEntity<>("Updated", HttpStatus.OK);
+        return getAllProjects();
     }
 
 
