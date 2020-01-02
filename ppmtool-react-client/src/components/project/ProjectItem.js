@@ -4,11 +4,12 @@ import { Modal } from 'react-bootstrap'
 import ProjectModalContainer from '../../containers/ProjectModalContainer'
 
 const ProjectItem = (props) => {
-    const {p} = props
+    const {p, deleteProject} = props
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    const handleDelete = () => deleteProject(p.projectIdentifier)
   return (
                     <div className="container">
                         <div className="card card-body bg-light mb-3">
@@ -32,7 +33,7 @@ const ProjectItem = (props) => {
                                                 <i className="fa fa-edit pr-1">Update Project Info</i>
                                             </li>
                                         </Link>
-                                        <Link to='/'>
+                                        <Link to='/' onClick={handleDelete}>
                                             <li className="list-group-item delete">
                                                 <i className="fa fa-minus-circle pr-1">Delete Project</i>
                                             </li>

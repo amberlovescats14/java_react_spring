@@ -24,7 +24,7 @@ export const createProject = (project, history) => async (dispatch, getState) =>
   }
   try {
     const res = await axios.post(proxy, project)
-    history.push('/dashboard')
+    history.push('/')
     dispatch({
       type: `POST_PROJECT`,
       payload: {
@@ -55,8 +55,27 @@ export const updateProject = (identifier, details) => async (dispatch) => {
   }
 }
 
+//! DELETE
+export const deleteProject = (identifier) => async (dispatch, getState) => {
+  const {projectObj} = getState()
+  try {
+    const res = await axios.delete(`${proxy}${identifier}`)
+    console.log("RES: ", res.data)
+    dispatch({
+      type: `DELETE_PROJECT`,
+      payload: {
+        identifier,
+        allProjects: projectObj.projects
+      }
+    })
+    dispatch(setWarnings(res.data))
+  } catch (error) {
+    dispatch(setAlert(error.response.data))
+  }
+}
 
-//! ALERTS
+
+//! ALERTS ERRORS
 export const setAlert = (msg, timeout = 3000) => dispatch => {
   dispatch({
     type: `GET_ERRORS`,
@@ -68,3 +87,17 @@ export const setAlert = (msg, timeout = 3000) => dispatch => {
     payload: []
   }), timeout)
 }
+
+//! ALERTS WARNINGS
+export const setWarnings = (msg, timeout = 2000) => dispatch => {
+  dispatch({
+    type: `GET_WARNINGS`,
+    payload: [msg]
+  })
+
+  setTimeout(()=>  dispatch({
+    type: `REMOVE_WARNINGS`,
+    payload: []
+  }), timeout)
+}
+ 

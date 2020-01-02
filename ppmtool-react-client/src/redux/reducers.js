@@ -26,6 +26,12 @@ export const getProjects = (state = projectInitialState, action) => {
       projects: payload,
       loading: false
     }
+    case `DELETE_PROJECT`:
+    return {
+      ...state,
+      projects: payload.allProjects.filter(p => p.projectIdentifier !== payload.identifier),
+      loading: false
+    }
     default: return state;
   }
 }
@@ -33,6 +39,7 @@ export const getProjects = (state = projectInitialState, action) => {
 let errorInitialState = []
 
 export const getErrors = (state = errorInitialState, action) => {
+
   const {type, payload} = action
   switch(type){
     case `GET_ERRORS`:
@@ -45,8 +52,22 @@ export const getErrors = (state = errorInitialState, action) => {
   }
 }
 
+let warningInitialState = []
+
+export const setWarnings = (state = warningInitialState, action) => {
+  const {type, payload} = action
+  switch(type){
+    case `GET_WARNINGS`:
+    return [...state, ...payload]
+    case `REMOVE_WARNINGS`:
+    return errorInitialState
+    default: return state
+  }
+}
+
 
 export default combineReducers({
+  warnings: setWarnings,
   errors: getErrors,
   projectObj: getProjects
 })

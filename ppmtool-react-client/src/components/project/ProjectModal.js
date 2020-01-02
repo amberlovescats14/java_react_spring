@@ -18,6 +18,8 @@ const ProjectModal = (props) => {
     handleClose()
 
   }
+  console.log("STATE: ", p);
+
   return (
     <div className="register p-3">
     <div className="container">

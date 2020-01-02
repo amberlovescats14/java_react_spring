@@ -5,7 +5,7 @@ import CreateButton from './project/CreateButton';
 
 
 const Dashboard = (props) => {
-  const { projectObj, getProjects } = props
+  const { projectObj, getProjects, deleteProject } = props
   useEffect(()=> {
     getProjects()
   }, [getProjects])
@@ -21,7 +21,7 @@ const Dashboard = (props) => {
                     <br />
                     <hr />
                     {projectObj.projects.map((p,i)=> (
-                      <ProjectItem p={p} key={i}/>
+                      <ProjectItem p={p} key={i} deleteProject={deleteProject}/>
                     ))}
                   </div>
                 </div>

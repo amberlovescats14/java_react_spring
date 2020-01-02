@@ -1,6 +1,6 @@
 import Dashboard from '../components/Dashboard'
 import { connect } from 'react-redux'
-import { getProjects, updateProject } from '../redux/actions'
+import { getProjects, deleteProject } from '../redux/actions'
 
 const mapStateToProps = state => ({
   projectObj: state.projectObj
@@ -8,6 +8,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   getProjects: () => dispatch(getProjects()),
+  deleteProject: (identifier) => dispatch(deleteProject(identifier))
 
 })
 
