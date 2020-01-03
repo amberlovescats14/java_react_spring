@@ -1,6 +1,8 @@
 export default {
-  warnings: [],
-  errors: [],
+  errors: {
+    errorsArr: [],
+    variant: ''
+  },
   projectObj: {
     projects: [],
     project: {},

@@ -3,11 +3,13 @@ import PropTypes from 'prop-types';
 import { Alert } from 'react-bootstrap'
 
 const AlertUtil = (props) => {
+  console.log("object", props.errors.errorsArr)
   const {errors} = props
+  const { errorsArr, variant} = errors
   return (
-    errors.length > 0 && 
-    errors.map((e,i)=> (
-      <Alert key={i} variant="danger">
+    errorsArr.length > 0 && 
+    errorsArr.map((e,i)=> (
+      <Alert key={i} variant={variant}>
       {e[0].toUpperCase()} : {e[1]}
       </Alert>
 
@@ -16,7 +18,7 @@ const AlertUtil = (props) => {
 }
 
 AlertUtil.propTypes = {
-  errors: PropTypes.array.isRequired,
+  errors: PropTypes.object.isRequired,
 }
 
 export default AlertUtil

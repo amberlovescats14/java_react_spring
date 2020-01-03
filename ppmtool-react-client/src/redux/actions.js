@@ -10,7 +10,7 @@ export const getProjects = () => async (dispatch) => {
       payload: res.data
     })
   } catch (error) {
-    dispatch(setAlert(error.response.data))
+    dispatch(setErrors(error.response.data, 'danger'))
   }
 }
 
@@ -27,8 +27,11 @@ export const createProject = (project, history) => async (dispatch, getState) =>
         allProjects: projectObj.projects
       }
     })
+
+    dispatch(setErrors([['success', 'Project Created']], 'success'))
+
   } catch (error) {
-    dispatch(setAlert(error.response.data))
+    dispatch(setErrors(error.response.data, 'danger'))
   }
 } 
 //! PUT
@@ -44,13 +47,18 @@ export const updateProject = (identifier, details) => async (dispatch) => {
       type: `UPDATE_PROJECT`,
       payload: res.data
     })
+
+    let obj = {
+      success: 'Project Updated'
+    }
+    dispatch(setErrors(obj, 'success'))
     
   } catch (error) {
     console.log(error)
     let errorMessage = {
       required: 'All Fields'
     }
-    dispatch(setAlert(errorMessage))
+    dispatch(setErrors(errorMessage, 'danger'))
   }
 }
 
@@ -67,18 +75,26 @@ export const deleteProject = (identifier) => async (dispatch, getState) => {
         allProjects: projectObj.projects
       }
     })
-    dispatch(setWarnings(res.data))
+    let obj = {
+      success: 'Project Deleted'
+    }
+    dispatch(setErrors( obj , 'warning'))
   } catch (error) {
-    dispatch(setAlert(error.response.data))
+    dispatch(setErrors(error.response.data, 'danger'))
   }
 }
 
 
 //! ALERTS ERRORS
-export const setAlert = (msg, timeout = 3000) => dispatch => {
+export const setErrors = (msg, color,  timeout = 3000) => dispatch => {
+  console.log("msg: ", msg);
+  console.log("color: ", color);
   dispatch({
     type: `GET_ERRORS`,
-    payload: msg
+    payload: {
+      msg,
+      color
+    }
   })
 
   setTimeout(()=>  dispatch({
@@ -87,16 +103,3 @@ export const setAlert = (msg, timeout = 3000) => dispatch => {
   }), timeout)
 }
 
-//! ALERTS WARNINGS
-export const setWarnings = (msg, timeout = 2000) => dispatch => {
-  dispatch({
-    type: `GET_WARNINGS`,
-    payload: [msg]
-  })
-
-  setTimeout(()=>  dispatch({
-    type: `REMOVE_WARNINGS`,
-    payload: []
-  }), timeout)
-}
- 

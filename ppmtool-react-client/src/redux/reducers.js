@@ -36,38 +36,31 @@ export const getProjects = (state = projectInitialState, action) => {
   }
 }
 
-let errorInitialState = []
+let errorInitialState = {
+  errorsArr: [],
+  variant: ''
+}
 
-export const getErrors = (state = errorInitialState, action) => {
-
+export const setErrors = (state = errorInitialState, action) => {
   const {type, payload} = action
+  console.log(payload);
   switch(type){
     case `GET_ERRORS`:
-    let errorsArr = Object.entries(payload)
-
-    return [...state, ...errorsArr]
+    return {
+      ...state,
+      errorsArr: !Array.isArray(payload.msg) ? Object.entries(payload.msg) : payload.msg,
+      variant: payload.color
+    }
     case `REMOVE_ERRORS`:
     return errorInitialState
     default: return state
   }
 }
 
-let warningInitialState = []
 
-export const setWarnings = (state = warningInitialState, action) => {
-  const {type, payload} = action
-  switch(type){
-    case `GET_WARNINGS`:
-    return [...state, ...payload]
-    case `REMOVE_WARNINGS`:
-    return errorInitialState
-    default: return state
-  }
-}
 
 
 export default combineReducers({
-  warnings: setWarnings,
-  errors: getErrors,
+  errors: setErrors,
   projectObj: getProjects
 })
