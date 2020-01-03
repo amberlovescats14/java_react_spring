@@ -37,6 +37,11 @@ public class Project {
     @JsonFormat(pattern = "yyyy-mm-dd")
     private Date updated_At;
 
+// cascade means on delete of project, all backlogs and children will be deleted
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    //
+    private Backlog backlog;
+
     public Project(){}
 
     //! on created
@@ -48,6 +53,14 @@ public class Project {
     @PreUpdate
     protected void onUpdate(){
         this.updated_At = new Date();
+    }
+
+    public Backlog getBacklog() {
+        return backlog;
+    }
+
+    public void setBacklog(Backlog backlog) {
+        this.backlog = backlog;
     }
 
     public Long getId() {

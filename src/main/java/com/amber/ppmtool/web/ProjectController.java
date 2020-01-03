@@ -53,7 +53,7 @@ public class ProjectController {
             return mapValidationErrorService.handleErrors(result);
 
         // else
-        Project project1 = projectService.saveOrUpdateProject(project);
+        Project project1 = projectService.createProject(project);
         return new ResponseEntity<>(project1, HttpStatus.CREATED);
     }
 
@@ -64,6 +64,8 @@ public class ProjectController {
             @PathVariable String identifier,
             @Valid @RequestBody Project details
     ) {
+        System.out.println("ID" + identifier);
+        System.out.println("Details: " + details);
         projectService.updateProject(identifier, details );
         return getAllProjects();
     }

@@ -1,7 +1,9 @@
 package com.amber.ppmtool.services;
 
+import com.amber.ppmtool.domain.Backlog;
 import com.amber.ppmtool.domain.Project;
 import com.amber.ppmtool.exception.ProjectIdException;
+import com.amber.ppmtool.repositories.BacklogRepository;
 import com.amber.ppmtool.repositories.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,10 +21,19 @@ public class ProjectService {
     @Autowired
     private ProjectRepository projectRepository;
 
-    //! SAVE OR UPDATE PROJECT
-    public Project saveOrUpdateProject(Project project){
+    @Autowired
+    private BacklogRepository backlogRepository;
+
+    //! CREATE:: SAVE OR UPDATE PROJECT
+    public Project createProject(Project project){
         try {
             project.setProjectIdentifier(project.getProjectIdentifier().toUpperCase());
+
+            //create new backlog but dont get stuck in recursion
+                Backlog backlog = new Backlog();
+                project.setBacklog(backlog);
+                backlog.setProject(project);
+                backlog.setProjectIdentifier(project.getProjectIdentifier());
 
             return projectRepository.save(project);
         } catch(Exception ex) {
@@ -51,6 +62,7 @@ public class ProjectService {
             String identifier,
             Project projectDetails
     ) {
+        System.out.println("ID" + identifier);
         Project project = projectRepository.findByProjectIdentifier(identifier);
 
         if(project == null)
@@ -60,7 +72,12 @@ public class ProjectService {
         project.setProjectName(projectDetails.getProjectName());
         project.setUpdated_At(new Date());
 
-        Project updatedProject = projectRepository.save(project);
+        Backlog backlog = backlogRepository.findByProjectIdentifier(project.getProjectIdentifier().toUpperCase());
+        project.setBacklog(backlog);
+
+        projectRepository.save(project);
+
+
         return new ResponseEntity<>("Updated",HttpStatus.OK);
 
     }
