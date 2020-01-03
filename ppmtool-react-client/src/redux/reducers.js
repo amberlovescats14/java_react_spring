@@ -11,7 +11,7 @@ export const getProjects = (state = projectInitialState, action) => {
     case `GET_PROJECTS`:
     return {
       ...state,
-      projects: payload,
+      projects: payload.reverse(),
       loading: false
     }
     case `POST PROJECT`: 

@@ -17,11 +17,6 @@ export const getProjects = () => async (dispatch) => {
 //! POST
 export const createProject = (project, history) => async (dispatch, getState) => {
   const { projectObj } = getState()
-  const config = {
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  }
   try {
     const res = await axios.post(proxy, project)
     history.push('/')
@@ -51,7 +46,11 @@ export const updateProject = (identifier, details) => async (dispatch) => {
     })
     
   } catch (error) {
-    dispatch(setAlert(error.response.data))
+    console.log(error)
+    let errorMessage = {
+      required: 'All Fields'
+    }
+    dispatch(setAlert(errorMessage))
   }
 }
 
