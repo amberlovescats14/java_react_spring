@@ -1,10 +1,9 @@
 import axios from 'axios'
 
-let proxy = "http://localhost:8080/api/project/"
 //! GET ALL
 export const getProjects = () => async (dispatch) => {
   try {
-    const res = await axios.get(proxy)
+    const res = await axios.get('/api/project/')
     dispatch({
       type: `GET_PROJECTS`,
       payload: res.data
@@ -18,7 +17,7 @@ export const getProjects = () => async (dispatch) => {
 export const createProject = (project, history) => async (dispatch, getState) => {
   const { projectObj } = getState()
   try {
-    const res = await axios.post(proxy, project)
+    const res = await axios.post('/api/project/', project)
     history.push('/')
     dispatch({
       type: `POST_PROJECT`,
@@ -42,7 +41,7 @@ export const updateProject = (identifier, details) => async (dispatch) => {
     }
   }
   try {
-    const res = await axios.put(`${proxy}${identifier}`, details, config)
+    const res = await axios.put(`/api/project/${identifier}`, details, config)
     dispatch({
       type: `UPDATE_PROJECT`,
       payload: res.data
@@ -66,19 +65,21 @@ export const updateProject = (identifier, details) => async (dispatch) => {
 export const deleteProject = (identifier) => async (dispatch, getState) => {
   const {projectObj} = getState()
   try {
-    const res = await axios.delete(`${proxy}${identifier}`)
-    console.log("RES: ", res.data)
-    dispatch({
-      type: `DELETE_PROJECT`,
-      payload: {
-        identifier,
-        allProjects: projectObj.projects
+    if(window.confirm('Are you sure you want to delete this project?')){
+      const res = await axios.delete(`/api/project/${identifier}`)
+      console.log("RES: ", res.data)
+      dispatch({
+        type: `DELETE_PROJECT`,
+        payload: {
+          identifier,
+          allProjects: projectObj.projects
+        }
+      })
+      let obj = {
+        success: 'Project Deleted'
       }
-    })
-    let obj = {
-      success: 'Project Deleted'
+      dispatch(setErrors( obj , 'warning'))
     }
-    dispatch(setErrors( obj , 'warning'))
   } catch (error) {
     dispatch(setErrors(error.response.data, 'danger'))
   }

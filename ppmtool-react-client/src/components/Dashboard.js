@@ -2,6 +2,7 @@ import React, {useEffect} from 'react'
 import PropTypes from 'prop-types';
 import ProjectItem from './project/ProjectItem';
 import CreateButton from './project/CreateButton';
+import Loading from './util/Loading';
 
 
 const Dashboard = (props) => {
@@ -11,6 +12,7 @@ const Dashboard = (props) => {
   }, [getProjects])
 
   return (
+    projectObj.loading ? <Loading/> :
     <div className="projects">
         <div className="container">
             <div className="row">

@@ -6,7 +6,7 @@ import { BrowserRouter } from 'react-router-dom'
 import Router from './Router';
 import AlertUtilContainer from './containers/AlertUtilContainer'
 
-function App(props) {
+function App() {
   return (
     <BrowserRouter>
     <AlertUtilContainer />
