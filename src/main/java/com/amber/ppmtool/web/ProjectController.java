@@ -64,7 +64,7 @@ public class ProjectController {
             @PathVariable String identifier,
             @Valid @RequestBody Project details
     ) {
-        System.out.println("ID" + identifier);
+        System.out.println("IDentifierr" + identifier);
         System.out.println("Details: " + details);
         projectService.updateProject(identifier, details );
         return getAllProjects();

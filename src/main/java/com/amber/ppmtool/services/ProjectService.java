@@ -9,11 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.validation.Valid;
 import java.util.Date;
 
 @Service
@@ -57,11 +53,11 @@ public class ProjectService {
     //! PUT
     // i did this one myself for a more graceful handling
     // u actually dont need any code for this
-    @PutMapping("/{identifier}")
     public ResponseEntity<?> updateProject(
             String identifier,
             Project projectDetails
     ) {
+
         System.out.println("ID" + identifier);
         Project project = projectRepository.findByProjectIdentifier(identifier);
 
@@ -72,8 +68,7 @@ public class ProjectService {
         project.setProjectName(projectDetails.getProjectName());
         project.setUpdated_At(new Date());
 
-        Backlog backlog = backlogRepository.findByProjectIdentifier(project.getProjectIdentifier().toUpperCase());
-        project.setBacklog(backlog);
+
 
         projectRepository.save(project);
 
