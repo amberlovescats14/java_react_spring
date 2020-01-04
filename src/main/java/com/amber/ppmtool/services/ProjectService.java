@@ -58,7 +58,6 @@ public class ProjectService {
             Project projectDetails
     ) {
 
-        System.out.println("ID" + identifier);
         Project project = projectRepository.findByProjectIdentifier(identifier);
 
         if(project == null)
@@ -80,12 +79,14 @@ public class ProjectService {
 
     //! DELETE
     public void deleteProjectByIdentifier(String identifier){
+        Backlog backlog = backlogRepository.findByProjectIdentifier(identifier);
         Project project = projectRepository.findByProjectIdentifier(identifier);
 
-        if(project == null)
+        if(project == null || backlog == null)
             throw new ProjectIdException("Project Not Found");
 
         //else
+        backlogRepository.delete(backlog);
         projectRepository.delete(project);
     }
 

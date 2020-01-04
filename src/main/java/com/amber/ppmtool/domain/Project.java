@@ -38,8 +38,7 @@ public class Project {
     private Date updated_At;
 
 // cascade means on delete of project, all backlogs and children will be deleted
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    //
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Backlog backlog;
 
     public Project(){}

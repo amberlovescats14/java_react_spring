@@ -64,8 +64,6 @@ public class ProjectController {
             @PathVariable String identifier,
             @Valid @RequestBody Project details
     ) {
-        System.out.println("IDentifierr" + identifier);
-        System.out.println("Details: " + details);
         projectService.updateProject(identifier, details );
         return getAllProjects();
     }
@@ -74,8 +72,9 @@ public class ProjectController {
     //! DELETE
     @DeleteMapping("/{identifier}")
     public ResponseEntity<?> deleteProject(
-            @PathVariable String identifier
+            @PathVariable(value = "identifier") String identifier
     ) {
+        System.out.println("Controller: " + identifier);
         projectService.deleteProjectByIdentifier(identifier.toUpperCase());
         return new ResponseEntity<String>("Deleted", HttpStatus.OK);
     }
